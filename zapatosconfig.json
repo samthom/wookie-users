@@ -1,0 +1,6 @@
+{
+    "db": {
+        "connectionString": "postgresql://wookieuser:secret@localhost/wookie_user"
+    },
+    "outDir": "./src"
+}
