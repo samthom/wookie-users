@@ -61,16 +61,16 @@ declare module 'zapatos/schema' {
       profilepicture: string | null;
       /**
       * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat: Date | null;
+      createdat: Date;
       /**
       * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat: Date | null;
+      updatedat: Date;
     }
     export interface JSONSelectable {
       /**
@@ -105,16 +105,16 @@ declare module 'zapatos/schema' {
       profilepicture: string | null;
       /**
       * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat: db.TimestampString | null;
+      createdat: db.TimestampTzString;
       /**
       * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat: db.TimestampString | null;
+      updatedat: db.TimestampTzString;
     }
     export interface Whereable {
       /**
@@ -149,16 +149,16 @@ declare module 'zapatos/schema' {
       profilepicture?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      createdat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
       * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      updatedat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -193,16 +193,16 @@ declare module 'zapatos/schema' {
       profilepicture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
       * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      createdat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
       /**
       * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      updatedat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -237,16 +237,16 @@ declare module 'zapatos/schema' {
       profilepicture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      createdat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
       /**
       * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      updatedat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'userdetails_pkey';
     export type Column = keyof Selectable;
@@ -277,9 +277,9 @@ declare module 'zapatos/schema' {
       /**
       * **users.password**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      password: string | null;
+      password: string;
       /**
       * **users.username**
       * - `varchar` in database
@@ -288,16 +288,16 @@ declare module 'zapatos/schema' {
       username: string | null;
       /**
       * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat: Date | null;
+      createdat: Date;
       /**
       * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat: Date | null;
+      updatedat: Date;
     }
     export interface JSONSelectable {
       /**
@@ -315,9 +315,9 @@ declare module 'zapatos/schema' {
       /**
       * **users.password**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      password: string | null;
+      password: string;
       /**
       * **users.username**
       * - `varchar` in database
@@ -326,16 +326,16 @@ declare module 'zapatos/schema' {
       username: string | null;
       /**
       * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat: db.TimestampString | null;
+      createdat: db.TimestampTzString;
       /**
       * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat: db.TimestampString | null;
+      updatedat: db.TimestampTzString;
     }
     export interface Whereable {
       /**
@@ -353,7 +353,7 @@ declare module 'zapatos/schema' {
       /**
       * **users.password**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
       password?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
@@ -364,16 +364,16 @@ declare module 'zapatos/schema' {
       username?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      createdat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
       * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      updatedat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -391,9 +391,9 @@ declare module 'zapatos/schema' {
       /**
       * **users.password**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      password?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      password: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **users.username**
       * - `varchar` in database
@@ -402,16 +402,16 @@ declare module 'zapatos/schema' {
       username?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
       * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      createdat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
       /**
       * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      updatedat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -429,9 +429,9 @@ declare module 'zapatos/schema' {
       /**
       * **users.password**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      password?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      password?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **users.username**
       * - `varchar` in database
@@ -440,16 +440,16 @@ declare module 'zapatos/schema' {
       username?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      createdat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
       /**
       * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      updatedat?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'users_id_username_key' | 'users_pkey';
     export type Column = keyof Selectable;

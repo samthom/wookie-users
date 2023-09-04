@@ -1,40 +1,22 @@
 {
   "name": "wookie-users",
-  "version": "1.0.0",
-  "description": "users service for wookiee",
-  "main": "./dest/index.js",
+  "module": "index.ts",
+  "type": "module",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "build": "tsc -p tsconfig.json",
-    "prod": "node ./dest/index.js",
-    "watch:migrations": "graphile-migrate watch",
-    "watch:tailwind": "tailwindcss -i ./static/input.css -o ./public/output.css --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "bun run index.ts"
   },
-  "keywords": [
-    "node",
-    "typescript"
-  ],
-  "author": "thomas.sam64@gmail.com",
-  "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/node": "^20.5.0",
     "@types/pg": "^8.10.2",
-    "chai": "^4.3.7",
+    "bun-types": "latest",
     "graphile-migrate": "^1.4.1",
-    "mocha": "^10.2.0",
-    "tailwindcss": "^3.3.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
     "zapatos": "^6.1.4"
   },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
   "dependencies": {
-    "@fastify/static": "^6.10.2",
-    "bcrypt": "^5.1.0",
-    "dotenv": "^16.3.1",
-    "fastify": "^4.21.0",
-    "jsonwebtoken": "^9.0.1",
-    "pg": "^8.11.2"
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3"
   }
 }
