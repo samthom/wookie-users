@@ -54,6 +54,9 @@ async function serve(req: Request): Promise<Response> {
             case "/signup": {
                 return await signup(req);
             }
+            case "/login": {
+                return await login(req);
+            }
             default: {
                 return new Response(`404`);
             }
@@ -72,21 +75,53 @@ async function signup(req: Request): Promise<Response> {
         let body = Buffer.concat(chunks);
         let payloadStr = body.toString();
         let payload = JSON.parse(payloadStr);
-        const hashedPassword =  await Bun.password.hash(payload.password);
-        const r = await withDBClient(c => 
-            db.insert("users",
+        const r = await withDBClient(c =>
+            db.insert("user_credential",
                 {
                     email: payload.email,
-                    password: hashedPassword,
-                    createdat: db.sql<s.users.SQL>`now()`,
-                    updatedat: db.sql<s.users.SQL>`now()`
+                    password: db.sql`crypt(${db.param(payload.password)}, gen_salt(${db.param("bf")}))`,
+                    created_at: db.sql<s.user_credential.SQL>`now()`,
+                    updated_at: db.sql<s.user_credential.SQL>`now()`
                 }, {
                 returning: ["id"]
             }).run(c)
         );
 
         console.log(r.id);
-        return new Response("Success!!");
+        let res = new Response(null, { status: 201, statusText: "CREATED" });
+        return res;
+
     }
-    return new Response(`No body found!`);
+    return new Response(null, { status: 400, statusText: "Invalid request" });
+}
+
+async function login(req: Request): Promise<Response> {
+    try {
+        let chunks = [];
+        const stream = req.body;
+        if (stream != null) {
+            for await (const chunk of stream) {
+                chunks.push(chunk);
+            }
+            let body = Buffer.concat(chunks);
+            let payloadStr = body.toString();
+            let payload = JSON.parse(payloadStr);
+            const r = await withDBClient(c =>
+                db.selectOne("user_credential",
+                    {
+                        email: payload.email,
+                        is_deleted: false,
+                        password: db.sql`password = crypt(${db.param(payload.password)}, password)`
+                    }).run(c)
+            );
+
+            console.log(r);
+            return new Response(null, { status: 200 });
+        }
+
+        return new Response(null, { status: 400, statusText: "Invalid request" });
+    } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 500, statusText: "Something went wrong." });
+    }
 }
