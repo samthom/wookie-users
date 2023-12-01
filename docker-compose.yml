@@ -1,10 +1,15 @@
 version: '3.1'
 
 services:
-  db:
-    image: postgres
+  wookie_db:
+    image: postgres:12
     ports:
       - "5432:5432"
     restart: always
+    volumes:
+      - ./init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
     environment:
       POSTGRES_PASSWORD: example
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+

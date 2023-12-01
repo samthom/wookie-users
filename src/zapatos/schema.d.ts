@@ -10,6 +10,7 @@ Released under the MIT licence: see LICENCE file
 declare module 'zapatos/schema' {
 
   import type * as db from 'zapatos/db';
+  import type * as c from 'zapatos/custom';
 
   // got a type error on schemaVersionCanary below? update by running `npx zapatos`
   export interface schemaVersionCanary extends db.SchemaVersionCanary { version: 104 }
@@ -18,237 +19,211 @@ declare module 'zapatos/schema' {
   /* === schema: public === */
 
   /* --- enums --- */
-  /* (none) */
+
+  export type userdeletionreason = 'admin_action' | 'bot_detected' | 'reported' | 'user_action';
+  export namespace every {
+    export type userdeletionreason = ['admin_action', 'bot_detected', 'reported', 'user_action'];
+  }
 
   /* --- tables --- */
 
   /**
-   * **userdetails**
+   * **post**
    * - Table in database
    */
-  export namespace userdetails {
-    export type Table = 'userdetails';
+  export namespace post {
+    export type Table = 'post';
     export interface Selectable {
       /**
-      * **userdetails.id**
+      * **post.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('userdetails_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('post_id_seq'::regclass)`
       */
       id: number;
       /**
-      * **userdetails.email**
+      * **post.title**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      email: string;
+      title: string;
       /**
-      * **userdetails.name**
+      * **post.user_email**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      name: string | null;
+      user_email: string;
       /**
-      * **userdetails.bio**
-      * - `varchar` in database
+      * **post.content**
+      * - `text` in database
       * - Nullable, no default
       */
-      bio: string | null;
+      content: string | null;
       /**
-      * **userdetails.profilepicture**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **post.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      profilepicture: string | null;
+      created_at: Date;
       /**
-      * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **post.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat: Date | null;
-      /**
-      * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
-      */
-      updatedat: Date | null;
+      updated_at: Date;
     }
     export interface JSONSelectable {
       /**
-      * **userdetails.id**
+      * **post.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('userdetails_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('post_id_seq'::regclass)`
       */
       id: number;
       /**
-      * **userdetails.email**
+      * **post.title**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      email: string;
+      title: string;
       /**
-      * **userdetails.name**
+      * **post.user_email**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      name: string | null;
+      user_email: string;
       /**
-      * **userdetails.bio**
-      * - `varchar` in database
+      * **post.content**
+      * - `text` in database
       * - Nullable, no default
       */
-      bio: string | null;
+      content: string | null;
       /**
-      * **userdetails.profilepicture**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **post.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      profilepicture: string | null;
+      created_at: db.TimestampTzString;
       /**
-      * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **post.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat: db.TimestampString | null;
-      /**
-      * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
-      */
-      updatedat: db.TimestampString | null;
+      updated_at: db.TimestampTzString;
     }
     export interface Whereable {
       /**
-      * **userdetails.id**
+      * **post.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('userdetails_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('post_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **userdetails.email**
+      * **post.title**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      title?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **userdetails.name**
+      * **post.user_email**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      user_email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **userdetails.bio**
-      * - `varchar` in database
+      * **post.content**
+      * - `text` in database
       * - Nullable, no default
       */
-      bio?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      content?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **userdetails.profilepicture**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **post.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      profilepicture?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **post.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
-      */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-      * **userdetails.id**
+      * **post.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('userdetails_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('post_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
       /**
-      * **userdetails.email**
+      * **post.title**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      email: string | db.Parameter<string> | db.SQLFragment;
+      title: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **userdetails.name**
+      * **post.user_email**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      user_email: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **userdetails.bio**
-      * - `varchar` in database
+      * **post.content**
+      * - `text` in database
       * - Nullable, no default
       */
-      bio?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      content?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **userdetails.profilepicture**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **post.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      profilepicture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
       /**
-      * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **post.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
-      /**
-      * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
-      */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
-      * **userdetails.id**
+      * **post.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('userdetails_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('post_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
       /**
-      * **userdetails.email**
+      * **post.title**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      title?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **userdetails.name**
+      * **post.user_email**
       * - `varchar` in database
-      * - Nullable, no default
+      * - `NOT NULL`, no default
       */
-      name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      user_email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **userdetails.bio**
-      * - `varchar` in database
+      * **post.content**
+      * - `text` in database
       * - Nullable, no default
       */
-      bio?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      content?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **userdetails.profilepicture**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **post.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      profilepicture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
       /**
-      * **userdetails.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **post.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
-      /**
-      * **userdetails.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
-      */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
     }
-    export type UniqueIndex = 'userdetails_pkey';
+    export type UniqueIndex = 'post_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -256,202 +231,818 @@ declare module 'zapatos/schema' {
   }
 
   /**
-   * **users**
+   * **user_credential**
    * - Table in database
    */
-  export namespace users {
-    export type Table = 'users';
+  export namespace user_credential {
+    export type Table = 'user_credential';
     export interface Selectable {
       /**
-      * **users.id**
+      * **user_credential.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('user_credential_id_seq'::regclass)`
       */
       id: number;
       /**
-      * **users.email**
+      * **user_credential.email**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       email: string;
       /**
-      * **users.password**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **user_credential.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
       */
-      password: string | null;
+      password: string;
       /**
-      * **users.username**
+      * **user_credential.username**
       * - `varchar` in database
       * - Nullable, no default
       */
       username: string | null;
       /**
-      * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
       */
-      createdat: Date | null;
+      email_verified: boolean;
       /**
-      * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat: Date | null;
+      created_at: Date;
+      /**
+      * **user_credential.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at: Date;
+      /**
+      * **user_credential.is_deleted**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_deleted: boolean;
     }
     export interface JSONSelectable {
       /**
-      * **users.id**
+      * **user_credential.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('user_credential_id_seq'::regclass)`
       */
       id: number;
       /**
-      * **users.email**
+      * **user_credential.email**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       email: string;
       /**
-      * **users.password**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **user_credential.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
       */
-      password: string | null;
+      password: string;
       /**
-      * **users.username**
+      * **user_credential.username**
       * - `varchar` in database
       * - Nullable, no default
       */
       username: string | null;
       /**
-      * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
       */
-      createdat: db.TimestampString | null;
+      email_verified: boolean;
       /**
-      * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat: db.TimestampString | null;
+      created_at: db.TimestampTzString;
+      /**
+      * **user_credential.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at: db.TimestampTzString;
+      /**
+      * **user_credential.is_deleted**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_deleted: boolean;
     }
     export interface Whereable {
       /**
-      * **users.id**
+      * **user_credential.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('user_credential_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **users.email**
+      * **user_credential.email**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **users.password**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **user_credential.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
       */
       password?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **users.username**
+      * **user_credential.username**
       * - `varchar` in database
       * - Nullable, no default
       */
       username?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      email_verified?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_credential.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_credential.is_deleted**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_deleted?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-      * **users.id**
+      * **user_credential.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('user_credential_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
       /**
-      * **users.email**
+      * **user_credential.email**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       email: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **users.password**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **user_credential.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
       */
-      password?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      password: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **users.username**
+      * **user_credential.username**
       * - `varchar` in database
       * - Nullable, no default
       */
       username?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      email_verified?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
       /**
-      * **users.updatedat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment;
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_credential.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_credential.is_deleted**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_deleted?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
-      * **users.id**
+      * **user_credential.id**
       * - `int4` in database
-      * - `NOT NULL`, default: `nextval('users_id_seq'::regclass)`
+      * - `NOT NULL`, default: `nextval('user_credential_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
       /**
-      * **users.email**
+      * **user_credential.email**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **users.password**
-      * - `varchar` in database
-      * - Nullable, no default
+      * **user_credential.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
       */
-      password?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      password?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **users.username**
+      * **user_credential.username**
       * - `varchar` in database
       * - Nullable, no default
       */
       username?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **users.createdat**
-      * - `timestamp` in database
-      * - Nullable, no default
+      * **user_credential.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
       */
-      createdat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      email_verified?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
       /**
-      * **users.updatedat**
-      * - `timestamp` in database
+      * **user_credential.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_credential.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_credential.is_deleted**
+      * - `bool` in database
+      * - `NOT NULL`, default: `false`
+      */
+      is_deleted?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'user_credential_email_key' | 'user_credential_id_username_key' | 'user_credential_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **user_detail**
+   * - Table in database
+   */
+  export namespace user_detail {
+    export type Table = 'user_detail';
+    export interface Selectable {
+      /**
+      * **user_detail.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_detail_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **user_detail.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email: string;
+      /**
+      * **user_detail.name**
+      * - `varchar` in database
       * - Nullable, no default
       */
-      updatedat?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      name: string | null;
+      /**
+      * **user_detail.bio**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      bio: string | null;
+      /**
+      * **user_detail.profile_picture**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      profile_picture: string | null;
+      /**
+      * **user_detail.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at: Date;
+      /**
+      * **user_detail.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at: Date;
     }
-    export type UniqueIndex = 'users_id_username_key' | 'users_pkey';
+    export interface JSONSelectable {
+      /**
+      * **user_detail.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_detail_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **user_detail.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email: string;
+      /**
+      * **user_detail.name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      name: string | null;
+      /**
+      * **user_detail.bio**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      bio: string | null;
+      /**
+      * **user_detail.profile_picture**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      profile_picture: string | null;
+      /**
+      * **user_detail.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **user_detail.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **user_detail.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_detail_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_detail.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_detail.name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_detail.bio**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      bio?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_detail.profile_picture**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      profile_picture?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_detail.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_detail.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **user_detail.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_detail_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_detail.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **user_detail.name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_detail.bio**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      bio?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_detail.profile_picture**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      profile_picture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_detail.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_detail.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **user_detail.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_detail_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_detail.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user_detail.name**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_detail.bio**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      bio?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_detail.profile_picture**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      profile_picture?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_detail.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_detail.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'user_detail_id_email_key' | 'user_detail_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **user_meta**
+   * - Table in database
+   */
+  export namespace user_meta {
+    export type Table = 'user_meta';
+    export interface Selectable {
+      /**
+      * **user_meta.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_meta_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **user_meta.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email: string;
+      /**
+      * **user_meta.email_verified_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verified_time: Date | null;
+      /**
+      * **user_meta.email_verification_queued_time**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      email_verification_queued_time: Date;
+      /**
+      * **user_meta.email_verification_sent_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verification_sent_time: Date | null;
+      /**
+      * **user_meta.deletion_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      deletion_time: Date | null;
+      /**
+      * **user_meta.deletion_reason**
+      * - `userdeletionreason` in database
+      * - Nullable, no default
+      */
+      deletion_reason: userdeletionreason | null;
+      /**
+      * **user_meta.last_login_ip**
+      * - `cidr` in database
+      * - `NOT NULL`, no default
+      */
+      last_login_ip: c.PgCidr;
+      /**
+      * **user_meta.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at: Date;
+      /**
+      * **user_meta.udpated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      udpated_at: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **user_meta.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_meta_id_seq'::regclass)`
+      */
+      id: number;
+      /**
+      * **user_meta.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email: string;
+      /**
+      * **user_meta.email_verified_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verified_time: db.TimestampTzString | null;
+      /**
+      * **user_meta.email_verification_queued_time**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      email_verification_queued_time: db.TimestampTzString;
+      /**
+      * **user_meta.email_verification_sent_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verification_sent_time: db.TimestampTzString | null;
+      /**
+      * **user_meta.deletion_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      deletion_time: db.TimestampTzString | null;
+      /**
+      * **user_meta.deletion_reason**
+      * - `userdeletionreason` in database
+      * - Nullable, no default
+      */
+      deletion_reason: userdeletionreason | null;
+      /**
+      * **user_meta.last_login_ip**
+      * - `cidr` in database
+      * - `NOT NULL`, no default
+      */
+      last_login_ip: c.PgCidr;
+      /**
+      * **user_meta.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **user_meta.udpated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      udpated_at: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **user_meta.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_meta_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.email_verified_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verified_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.email_verification_queued_time**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      email_verification_queued_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.email_verification_sent_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verification_sent_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.deletion_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      deletion_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.deletion_reason**
+      * - `userdeletionreason` in database
+      * - Nullable, no default
+      */
+      deletion_reason?: userdeletionreason | db.Parameter<userdeletionreason> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, userdeletionreason | db.Parameter<userdeletionreason> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.last_login_ip**
+      * - `cidr` in database
+      * - `NOT NULL`, no default
+      */
+      last_login_ip?: c.PgCidr | db.Parameter<c.PgCidr> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgCidr | db.Parameter<c.PgCidr> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_meta.udpated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      udpated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **user_meta.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_meta_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **user_meta.email_verified_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verified_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.email_verification_queued_time**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      email_verification_queued_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.email_verification_sent_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verification_sent_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.deletion_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      deletion_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.deletion_reason**
+      * - `userdeletionreason` in database
+      * - Nullable, no default
+      */
+      deletion_reason?: userdeletionreason | db.Parameter<userdeletionreason> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.last_login_ip**
+      * - `cidr` in database
+      * - `NOT NULL`, no default
+      */
+      last_login_ip: c.PgCidr | db.Parameter<c.PgCidr> | db.SQLFragment;
+      /**
+      * **user_meta.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_meta.udpated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      udpated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **user_meta.id**
+      * - `int4` in database
+      * - `NOT NULL`, default: `nextval('user_meta_id_seq'::regclass)`
+      */
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.email**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      email?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user_meta.email_verified_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verified_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.email_verification_queued_time**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      email_verification_queued_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.email_verification_sent_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      email_verification_sent_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.deletion_time**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      deletion_time?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.deletion_reason**
+      * - `userdeletionreason` in database
+      * - Nullable, no default
+      */
+      deletion_reason?: userdeletionreason | db.Parameter<userdeletionreason> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, userdeletionreason | db.Parameter<userdeletionreason> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.last_login_ip**
+      * - `cidr` in database
+      * - `NOT NULL`, no default
+      */
+      last_login_ip?: c.PgCidr | db.Parameter<c.PgCidr> | db.SQLFragment | db.SQLFragment<any, c.PgCidr | db.Parameter<c.PgCidr> | db.SQLFragment>;
+      /**
+      * **user_meta.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_meta.udpated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, default: `now()`
+      */
+      udpated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'user_meta_id_email_key' | 'user_meta_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -461,20 +1052,20 @@ declare module 'zapatos/schema' {
   /* --- aggregate types --- */
 
   export namespace public {  
-    export type Table = userdetails.Table | users.Table;
-    export type Selectable = userdetails.Selectable | users.Selectable;
-    export type JSONSelectable = userdetails.JSONSelectable | users.JSONSelectable;
-    export type Whereable = userdetails.Whereable | users.Whereable;
-    export type Insertable = userdetails.Insertable | users.Insertable;
-    export type Updatable = userdetails.Updatable | users.Updatable;
-    export type UniqueIndex = userdetails.UniqueIndex | users.UniqueIndex;
-    export type Column = userdetails.Column | users.Column;
+    export type Table = post.Table | user_credential.Table | user_detail.Table | user_meta.Table;
+    export type Selectable = post.Selectable | user_credential.Selectable | user_detail.Selectable | user_meta.Selectable;
+    export type JSONSelectable = post.JSONSelectable | user_credential.JSONSelectable | user_detail.JSONSelectable | user_meta.JSONSelectable;
+    export type Whereable = post.Whereable | user_credential.Whereable | user_detail.Whereable | user_meta.Whereable;
+    export type Insertable = post.Insertable | user_credential.Insertable | user_detail.Insertable | user_meta.Insertable;
+    export type Updatable = post.Updatable | user_credential.Updatable | user_detail.Updatable | user_meta.Updatable;
+    export type UniqueIndex = post.UniqueIndex | user_credential.UniqueIndex | user_detail.UniqueIndex | user_meta.UniqueIndex;
+    export type Column = post.Column | user_credential.Column | user_detail.Column | user_meta.Column;
   
-    export type AllBaseTables = [userdetails.Table, users.Table];
+    export type AllBaseTables = [post.Table, user_credential.Table, user_detail.Table, user_meta.Table];
     export type AllForeignTables = [];
     export type AllViews = [];
     export type AllMaterializedViews = [];
-    export type AllTablesAndViews = [userdetails.Table, users.Table];
+    export type AllTablesAndViews = [post.Table, user_credential.Table, user_detail.Table, user_meta.Table];
   }
 
 
@@ -502,43 +1093,59 @@ declare module 'zapatos/schema' {
   /* === lookups === */
 
   export type SelectableForTable<T extends Table> = {
-    "userdetails": userdetails.Selectable;
-    "users": users.Selectable;
+    "post": post.Selectable;
+    "user_credential": user_credential.Selectable;
+    "user_detail": user_detail.Selectable;
+    "user_meta": user_meta.Selectable;
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
-    "userdetails": userdetails.JSONSelectable;
-    "users": users.JSONSelectable;
+    "post": post.JSONSelectable;
+    "user_credential": user_credential.JSONSelectable;
+    "user_detail": user_detail.JSONSelectable;
+    "user_meta": user_meta.JSONSelectable;
   }[T];
 
   export type WhereableForTable<T extends Table> = {
-    "userdetails": userdetails.Whereable;
-    "users": users.Whereable;
+    "post": post.Whereable;
+    "user_credential": user_credential.Whereable;
+    "user_detail": user_detail.Whereable;
+    "user_meta": user_meta.Whereable;
   }[T];
 
   export type InsertableForTable<T extends Table> = {
-    "userdetails": userdetails.Insertable;
-    "users": users.Insertable;
+    "post": post.Insertable;
+    "user_credential": user_credential.Insertable;
+    "user_detail": user_detail.Insertable;
+    "user_meta": user_meta.Insertable;
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
-    "userdetails": userdetails.Updatable;
-    "users": users.Updatable;
+    "post": post.Updatable;
+    "user_credential": user_credential.Updatable;
+    "user_detail": user_detail.Updatable;
+    "user_meta": user_meta.Updatable;
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
-    "userdetails": userdetails.UniqueIndex;
-    "users": users.UniqueIndex;
+    "post": post.UniqueIndex;
+    "user_credential": user_credential.UniqueIndex;
+    "user_detail": user_detail.UniqueIndex;
+    "user_meta": user_meta.UniqueIndex;
   }[T];
 
   export type ColumnForTable<T extends Table> = {
-    "userdetails": userdetails.Column;
-    "users": users.Column;
+    "post": post.Column;
+    "user_credential": user_credential.Column;
+    "user_detail": user_detail.Column;
+    "user_meta": user_meta.Column;
   }[T];
 
   export type SQLForTable<T extends Table> = {
-    "userdetails": userdetails.SQL;
-    "users": users.SQL;
+    "post": post.SQL;
+    "user_credential": user_credential.SQL;
+    "user_detail": user_detail.SQL;
+    "user_meta": user_meta.SQL;
   }[T];
 
 }
