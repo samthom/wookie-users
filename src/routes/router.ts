@@ -3,6 +3,32 @@ import { FastifyPluginCallback } from "fastify";
 import { Pool, PoolClient } from "pg";
 import * as db from 'zapatos/db';
 import type * as s from "zapatos/schema";
+import express from "express";
+
+
+export default class Router {
+    public path = "/";
+    public router = express.Router()
+    private db: Pool;
+
+    constructor(db: Pool){
+        this.db = db;
+        this.init()
+    }
+
+    private init() {
+        console.log("INit called")
+        this.router.get(this.path, index())
+    }
+}
+
+
+function index() {
+    return async(req, res, next) => {
+        console.log("welcome called")
+        res.send("Welcome");
+    }
+}
 
 interface SignupBody {
     email: string;
