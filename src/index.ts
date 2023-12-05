@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import fastify from "fastify";
 import { resolve } from "path";
 import { Pool } from "pg";
-import { indexRoutes, signupRoutes } from "routes/router";
+import { indexRoutes, postRoutes, signUpRoutes } from "routes/router";
 
 dotenv.config({ path: resolve(__dirname, "../.env") });
 
@@ -20,7 +20,7 @@ const envToLogger = {
     test: false,
 }
 
-const server = fastify({ 
+const server = fastify({
     logger: envToLogger[String(process.env.NODE_ENV)] ?? true
 });
 
@@ -34,12 +34,9 @@ pool.on("error", (err, _client) => {
 })
 
 
-const idxRoute = new indexRoutes();
-const signupRoute = new signupRoutes(pool);
-
-
-server.register(idxRoute.plugin(), { prefix: idxRoute.path });
-server.register(signupRoute.plugin(), { prefix: signupRoute.path});
+server.register(indexRoutes(), { prefix: "/" });
+server.register(signUpRoutes(pool), { prefix: "/signup" });
+server.register(postRoutes(pool), { prefix: "/posts" });
 
 
 
