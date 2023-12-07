@@ -1,8 +1,9 @@
 type Query {
-    books: [Book]
+    posts: [Post]
 }
 
-type Book {
+type Post {
     title: String
+    content: String
     author: String
 }

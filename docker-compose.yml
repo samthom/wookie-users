@@ -9,7 +9,7 @@ services:
     volumes:
       - ./init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: secret
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
 

@@ -121,3 +121,8 @@
 {"time":"2023-12-05T20:35:12.869Z","remote_address":"::1","method":"POST","url":"/gql","status":"200","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","response_time":"4.383"}
 {"time":"2023-12-05T20:35:41.234Z","remote_address":"::1","method":"GET","url":"/","status":"200","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","response_time":"8.867"}
 {"time":"2023-12-05T20:35:41.301Z","remote_address":"::1","method":"GET","url":"/favicon.ico","status":"404","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","response_time":"2.860"}
+{"time":"2023-12-07T17:03:03.831Z","remote_address":"::1","method":"POST","url":"/signup","status":"201","user_agent":"PostmanRuntime/7.35.0","response_time":"51.267"}
+{"time":"2023-12-07T19:48:25.052Z","remote_address":"::1","method":"GET","url":"/","status":"404","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36","response_time":"2.751"}
+{"time":"2023-12-07T19:48:47.977Z","remote_address":"::1","method":"POST","url":"/signup","status":"404","user_agent":"PostmanRuntime/7.35.0","response_time":"0.799"}
+{"time":"2023-12-07T19:48:56.384Z","remote_address":"::1","method":"POST","url":"/api/signup","status":"201","user_agent":"PostmanRuntime/7.35.0","response_time":"52.142"}
+{"time":"2023-12-07T19:49:33.027Z","remote_address":"::1","method":"POST","url":"/api/posts","status":"201","user_agent":"PostmanRuntime/7.35.0","response_time":"22.999"}

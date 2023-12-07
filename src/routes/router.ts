@@ -1,9 +1,11 @@
 import bcrypt from "bcrypt";
-import { FastifyPluginCallback } from "fastify";
-import { Pool, PoolClient } from "pg";
-import * as db from 'zapatos/db';
-import type * as s from "zapatos/schema";
 import express from "express";
+import { Next, Request, Response } from "lib/helpers/_express";
+import { posts } from "models/posts";
+import { Post } from "models/types/model-types";
+import { users } from "models/users";
+import { Pool } from "pg";
+import HttpStatusCode from "./http-status-codes";
 
 
 export default class Router {
@@ -11,22 +13,22 @@ export default class Router {
     public router = express.Router()
     private db: Pool;
 
-    constructor(db: Pool){
+    constructor(db: Pool) {
         this.db = db;
         this.init()
     }
 
     private init() {
-        console.log("INit called")
         this.router.get(this.path, index())
+        this.router.post(this.path + "signup", signup(this.db));
+        this.router.post(this.path + "posts", createPost(this.db));
     }
 }
 
 
 function index() {
-    return async(req, res, next) => {
-        console.log("welcome called")
-        res.send("Welcome");
+    return async (_req: Request, res: Response<{}>) => {
+        res.send("Welcome to Wookie user api.");
     }
 }
 
@@ -35,102 +37,36 @@ interface SignupBody {
     password: string;
 }
 
-interface PostBody {
-    title: string;
-    user_email: string;
-    content: string
-}
 
-interface IReply {
-    200: { success: boolean };
-    201: { success: boolean };
-    '4xx': { error: string };
-    '5xx': { error: string };
-}
+export function signup(pool: Pool) {
+    return async (req: Request<SignupBody, {}, {}>, res: Response<{}>, _next: Next) => {
 
-export function indexRoutes(): FastifyPluginCallback {
-    return (server, _, done) => {
-        server.get("/", async (_request, reply) => {
-            reply.code(200).send("Hello There!");
-        });
-        done();
-    }
+        try {
+            const payload = req.body;
+            const hashedPassword = await bcrypt.hash(payload.password, Number(process.env.SALT) | 8);
+            await users.create(pool, { ...payload, password: hashedPassword });
+            res.status(HttpStatusCode.CREATED).send("Created")
 
-}
-
-async function withDBClient<T>(fn: (client: PoolClient) => T, pool: Pool): Promise<T> {
-    const client = await pool.connect();
-
-    try {
-        const result = await fn(client);
-        return result;
-    } finally {
-        client.release();
-    }
-}
-
-export function signUpRoutes(pool: Pool): FastifyPluginCallback {
-    return (server, _, done) => {
-
-        server.post<{ Body: SignupBody, Reply: IReply }>("/", async (request, reply) => {
-            try {
-                const payload = request.body;
-                const hashedPassword = await bcrypt.hash(payload.password, Number(process.env.SALT) | 8);
-                const r = await withDBClient(c =>
-                    db.insert("user_credential",
-                        {
-                            email: payload.email,
-                            password: hashedPassword,
-                            created_at: db.sql<s.user_credential.SQL>`now()`,
-                            updated_at: db.sql<s.user_credential.SQL>`now()`,
-                        },
-                        {
-                            returning: ["id"]
-                        }).run(c), pool
-                );
-
-                request.log.info(`user created with id: ${r.id}`);
-                reply.code(201).send({ success: true });
-
-            } catch (error) {
-                if (error.code == 23505) {
-                    reply.code(400).send({ error: "Account already exist. Please signin." });
-                    return;
-                }
-                request.log.error(error)
-                reply.code(500).send({ error: "Something went wrong. Try after sometime." });
+        } catch (error) {
+            if (error.code == 23505) {
+                res.status(400).send("Account already exist. Please signin.");
+                return;
             }
-        });
-        done();
-
+            res.status(500).send("Something went wrong. Try after sometime.");
+        }
     }
+
 }
 
-export function postRoutes(pool: Pool): FastifyPluginCallback {
-    return (server, _, done) => {
-
-        server.post<{ Body: PostBody, Reply: IReply }>("/", async (request, reply) => {
-            try {
-                const post = request.body;
-                const r = await withDBClient(c =>
-                    db.insert("post",
-                        {
-                            ...post,
-                            created_at: db.sql<s.post.SQL>`now()`,
-                            updated_at: db.sql<s.post.SQL>`now()`
-                        },
-                        {
-                            returning: ["id"]
-                        }).run(c), pool
-                );
-                request.log.info(`post: ${r.id} created`);
-                reply.code(201).send({ success: true });
-            } catch (error) {
-                request.log.error(error)
-                reply.code(500).send({ error: "Something went wrong. Try after sometime." });
-            }
-        })
-
-        done();
+export function createPost(pool: Pool) {
+    return async (req: Request<Post, {}, {}>, res: Response<{}>, _next: Next) => {
+        try {
+            const post = req.body;
+            await posts.create(pool, post);
+            res.status(HttpStatusCode.CREATED).send("Post created.");
+        } catch (error) {
+            res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send("Something went wrong. Try after sometime.");
+        }
     }
+
 }

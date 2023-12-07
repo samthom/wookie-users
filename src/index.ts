@@ -6,14 +6,15 @@ import http from "node:http";
 
 import { apolloServer, configureExpressApp } from "config/config";
 import Router from "routes/router";
+import { resolvers } from "lib/graphql/gql";
 
 dotenv.config({ path: resolve(".env") });
 
-const port = Number(process.env.PORT) || 4000
+const port = Number(process.env.PORT) || 4000;
 
 const pool = new pg.Pool({
     connectionString: process.env.DB
-})
+});
 
 pool.on("error", (err, _client) => {
     console.error("Unexpected error on idle client", err);
@@ -22,9 +23,10 @@ pool.on("error", (err, _client) => {
 
 const app = express();
 const httpServer = http.createServer(app);
-const apollo = await apolloServer(httpServer);
+const gqlResolvers = resolvers(pool)
+const apollo = await apolloServer(httpServer, gqlResolvers);
 
-const router = new Router(pool)
+const router = new Router(pool);
 
 configureExpressApp(app, apollo, router);
 
@@ -47,7 +49,7 @@ process.on("SIGTERM", () => {
         try {
             console.log("Http server closed.");
             console.log("Closing database connections.");
-            await pool.end()
+            await pool.end();
             console.log("Database connections closed.");
             process.exit(0);
         } catch (error) {
