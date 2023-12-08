@@ -1,4 +1,4 @@
-import { UserCredential } from "./types/model-types";
+import type { UserCredential } from "./types/model-types";
 import { Pool } from "pg";
 import { withDBClient } from "./db";
 import * as db from 'zapatos/db';

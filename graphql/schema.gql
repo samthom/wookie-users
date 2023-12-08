@@ -1,9 +1,9 @@
 type Query {
-    posts: [Post]
+    posts(author: String): [Post]
 }
 
 type Post {
     title: String
     content: String
-    author: String
+    user_email: String
 }

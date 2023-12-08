@@ -1,14 +1,16 @@
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
 import express, { Express } from "express";
-import { Resolvers } from "generated/resolver-types";
+import type { Resolvers } from "generated/resolver-types";
 import { typeDefs } from "lib/graphql/gql";
 import morgan from "morgan";
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { jsonFormat } from "./morgan";
+import Router from "routes/router";
 
 interface AppContext {
     token?: string;
@@ -18,7 +20,7 @@ export async function apolloServer(httpServer: http.Server, resolvers: Resolvers
     const apollo = new ApolloServer<AppContext>({
         typeDefs,
         resolvers,
-        plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), ApolloServerPluginLandingPageProductionDefault({ footer: false })]
 
     })
 
@@ -35,7 +37,7 @@ function allowCrossDomain(_: express.Request, res: express.Response, next: expre
     next();
 };
 
-export function configureExpressApp(app: Express, apollo: ApolloServer<AppContext>, router) {
+export function configureExpressApp(app: Express, apollo: ApolloServer<AppContext>, router: Router) {
     configureExpressMiddlewares(app)
     app.use("/api", router.router);
     configureExpressWithApollo(app, apollo)
