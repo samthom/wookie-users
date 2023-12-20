@@ -1,14 +1,13 @@
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import { resolve } from "path";
 import pg from "pg";
 import express from "express";
 import http from "node:http";
 
-import { apolloServer, configureExpressApp } from "config/config";
-import Router from "routes/router";
-import { resolvers } from "lib/graphql/gql";
+import { configureExpressApp } from "./config/config"
+import Router from "./routes/router";
 
-dotenv.config({ path: resolve(".env") });
+config({ path: resolve(".env") });
 
 const port = Number(process.env.PORT) || 4000;
 
@@ -23,26 +22,23 @@ pool.on("error", (err, _client) => {
 
 const app = express();
 const httpServer = http.createServer(app);
-const gqlResolvers = resolvers(pool)
-const apollo = await apolloServer(httpServer, gqlResolvers);
 
 const router = new Router(pool);
 
-configureExpressApp(app, apollo, router);
+configureExpressApp(app, router);
 
-const server = await new Promise<http.Server>(resolve => {
-    const s = httpServer.listen({ port });
-    resolve(s);
-});
 
-console.log(`🚀 Server ready at http://localhost:${port}/`);
+httpServer.listen({ port }, () => {
+    console.log(`🚀 Server ready at http://localhost:${port}/`);
+})
+
 
 
 // Graceful shutdown of nodejs http server
 process.on("SIGTERM", () => {
     console.info("SIGTERM signal received.");
     console.log("Closing http server.");
-    server.close(async error => {
+    httpServer.close(async error => {
         if (error) {
             console.error("Error at server.close(): ", error);
         }

@@ -23,14 +23,18 @@ export namespace posts {
 
     export async function get(pool: Pool, author?: string): Promise<Post[]> {
         let where = {};
-        if (author) where.user_email = author;
+        if (author) where = { user_email: author };
         const r = await withDBClient(c =>
             db.select(POST, where).run(c), pool
         );
 
-        let posts = [];
+        let posts: Post[] = [];
         for (const post of r) {
-            posts.push(post)
+            posts.push({
+                title: post.title,
+                content: post.content || "",
+                user_email: post.user_email,
+            })
         }
 
         return posts;

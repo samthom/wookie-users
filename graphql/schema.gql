@@ -1,9 +1,0 @@
-type Query {
-    posts(author: String): [Post]
-}
-
-type Post {
-    title: String
-    content: String
-    user_email: String
-}

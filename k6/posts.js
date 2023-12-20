@@ -16,7 +16,7 @@ function getRandomInt(max) {
 }
 
 export default function() {
-    const url = "http://localhost:8000/posts";
+    const url = "http://localhost:8000/api/posts";
     const payload = JSON.stringify({
         title: f.loremIpsumSentence(5),
         content: f.loremIpsumParagraph(1, 5, 50, "."),

@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import express from "express";
-import { Next, Request, Response } from "lib/helpers/_express";
-import { posts } from "models/posts";
-import { Post } from "models/types/model-types";
-import { users } from "models/users";
+import { Next, Request, Response } from "../lib/helpers/_express";
+import { posts } from "../models/posts";
+import { Post } from "../models/types/model-types";
+import { users } from "../models/users";
 import { Pool } from "pg";
 import HttpStatusCode from "./http-status-codes";
 
@@ -21,6 +21,7 @@ export default class Router {
     private init() {
         this.router.get(this.path, index())
         this.router.post(this.path + "signup", signup(this.db));
+        this.router.get(this.path + "posts", getPosts(this.db));
         this.router.post(this.path + "posts", createPost(this.db));
     }
 }
@@ -69,4 +70,18 @@ export function createPost(pool: Pool) {
         }
     }
 
+}
+
+export function getPosts(pool: Pool) {
+    return async (req: Request<Post, {}, {}>, res: Response<{}>, _next: Next) => {
+        try {
+            const post = req.body;
+            await posts.create(pool, post);
+            const result = posts.get(pool, "sam@wookie.com")
+            res.json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send("Something went wrong. Try after sometime.");
+        }
+    }
 }
